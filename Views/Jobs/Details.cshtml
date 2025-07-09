@@ -1,0 +1,180 @@
+﻿@using EShift.ViewModels
+@model JobDetailsViewModel
+
+@{
+    ViewData["Title"] = $"Job Details - {Model.Job?.JobId}"; // Use null-conditional for safety
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure you're using your main layout
+}
+
+<div class="max-w-4xl mx-auto px-4 py-12 pt-28">
+    @* Added pt-28 to push content below fixed navbar *@
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-6">Job #@Model.Job?.JobId Details</h1>
+
+    @if (Model.Job == null)
+    {
+        <div class="p-6 bg-red-100 text-red-700 rounded-lg shadow-md">
+            <p>Job details could not be loaded. Please try again or contact support.</p>
+            <a href="/Customers/Index" class="mt-4 inline-block text-cyan-600 hover:underline">Back to Dashboard</a>
+        </div>
+    }
+    else
+    {
+        <div class="bg-white p-8 rounded-lg shadow-xl border border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
+
+                <div class="col-span-full">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Job Information</h2>
+                </div>
+
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Status:</p>
+                    @* Using the derived property from ViewModel *@
+                    <p class="text-lg font-bold @Model.StatusCssClass">@Model.Job.Status</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Category:</p>
+                    <p class="text-lg font-medium text-gray-900">@Model.Job.Category</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Move Date:</p>
+                    @* Using the derived property from ViewModel *@
+                    <p class="text-lg font-medium text-gray-900">@Model.FormattedMoveDate</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Preferred Time:</p>
+                    <p class="text-lg font-medium text-gray-900">@Model.Job.MoveTime</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Item Count:</p>
+                    <p class="text-lg font-medium text-gray-900">@Model.Job.ItemCount</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Estimated Weight:</p>
+                    <p class="text-lg font-medium text-gray-900">@Model.Job.EstimatedKg KG</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Estimated Arrival:</p>
+                    @* Using the derived property from ViewModel *@
+                    <p class="text-lg font-medium text-gray-900">@Model.FormattedEstimatedArrival</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Progress:</p>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-cyan-400 h-3 rounded-full" style="width: @Model.Job.ProgressPercentage%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">@Model.Job.ProgressPercentage% Complete</p>
+                </div>
+
+                <div class="col-span-full">
+                    <h2 class="text-2xl font-semibold text-gray-800 mt-6 mb-4 border-b pb-2">Customer Information</h2>
+                </div>
+
+                @* Accessing Customer details via the Job navigation property *@
+                @if (Model.Job.Customer != null)
+                {
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Customer Name:</p>
+                        <p class="text-lg font-medium text-gray-900">@Model.Job.Customer.FullName</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Phone Number:</p>
+                        <p class="text-lg font-medium text-gray-900">@Model.Job.Customer.PhoneNumber</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Customer Registered Address:</p>
+                        <p class="text-lg font-medium text-gray-900">@Model.Job.Customer.Address</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Email (from Job Request):</p>
+                        <p class="text-lg font-medium text-gray-900">@Model.Job.Email</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-span-full">
+                        <p class="text-gray-600">Customer information not directly linked or available (using request details).</p>
+                        <p class="text-sm text-gray-500">Name: @Model.Job.CustomerName, Phone: @Model.Job.PhoneNumber, Email: @Model.Job.Email</p>
+                    </div>
+                }
+
+                <div class="col-span-full">
+                    <h2 class="text-2xl font-semibold text-gray-800 mt-6 mb-4 border-b pb-2">Assignment Details</h2>
+                </div>
+
+                @* Display Assigned Driver information *@
+                @if (Model.Job.Driver != null)
+                {
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Assigned Driver:</p>
+                        <p class="text-lg font-medium text-gray-900">@Model.Job.Driver.FullName (@Model.Job.Driver.PhoneNumber)</p>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Assigned Driver:</p>
+                        <p class="text-lg font-medium text-gray-700">Not yet assigned</p>
+                    </div>
+                }
+
+                @* Display Assigned Vehicle information *@
+                @if (Model.Job.Vehicle != null)
+                {
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Assigned Vehicle:</p>
+                        <p class="text-lg font-medium text-gray-900">@Model.Job.Vehicle.Make @Model.Job.Vehicle.Model (@Model.Job.Vehicle.LicensePlate)</p>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Assigned Vehicle:</p>
+                        <p class="text-lg font-medium text-gray-700">Not yet assigned</p>
+                    </div>
+                }
+
+                @* Display Assigned Assistants information *@
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Assistants:</p>
+                    <p class="text-lg font-medium text-gray-900">@Model.AssistantsCountText</p>
+                    @if (Model.Job.AssignedAssistants != null && Model.Job.AssignedAssistants.Any())
+                    {
+                        <ul class="list-disc list-inside mt-2 text-gray-800">
+                            @foreach (var assistant in Model.Job.AssignedAssistants)
+                            {
+                                <li>@assistant.FullName</li>
+                            }
+                        </ul>
+                    }
+                </div>
+
+                <div class="col-span-full">
+                    <h2 class="text-2xl font-semibold text-gray-800 mt-6 mb-4 border-b pb-2">Addresses & Instructions</h2>
+                </div>
+
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Pickup Address:</p>
+                    <p class="text-lg font-medium text-gray-900">@Model.Job.PickupAddress</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Delivery Address:</p>
+                    <p class="text-lg font-medium text-gray-900">@Model.Job.DeliveryAddress</p>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.Job.Instructions))
+                {
+                    <div class="col-span-full">
+                        <p class="text-sm font-medium text-gray-600">Special Instructions:</p>
+                        <p class="text-lg font-medium text-gray-900">@Model.Job.Instructions</p>
+                    </div>
+                }
+
+                @* This button was inside the grid in your provided code, but logically it might be outside or in a dedicated actions div *@
+                <a href="/Customers/Index" class="btn-primary text-gray-700 bg-gray-200 hover:bg-gray-300 px-6 py-3 rounded-full shadow-md transition">Back to Dashboard</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/site.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,73 @@
+﻿
+body {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+
+#wrapper {
+    min-height: 100vh;
+}
+
+#sidebar-wrapper {
+    width: 250px;
+    transition: all 0.3s;
+}
+
+    #sidebar-wrapper.collapsed {
+        margin-left: -250px;
+    }
+
+#page-content-wrapper {
+    flex-grow: 1;
+}
+
+.sidebar-heading {
+    letter-spacing: 1px;
+}
+
+.list-group-item:hover {
+    background-color: var(--bs-secondary-bg);
+}
+
+.dark-toggle {
+    cursor: pointer;
+}
+
+.theme-toggle-icon {
+    font-size: 1.2rem;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+}
+
+.container-fluid {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+
+
+.gradient-btn {
+    background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to Violet */
+    border: none;
+    /* You might want to add default padding, border-radius, etc., if not already covered by Tailwind */
+    padding: 0.5rem 1rem; /* Example padding */
+    border-radius: 0.5rem; /* Example border-radius */
+    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add transition for smooth effect */
+}
+
+    .gradient-btn:hover {
+        background: linear-gradient(to left, #6366f1, #8b5cf6); /* Reverse gradient on hover */
+        box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4); /* Example subtle shadow on hover */
+    }
+
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        position: absolute;
+        z-index: 1000;
+        height: 100%;
+        background: var(--bs-body-bg);
+    }
+}
+

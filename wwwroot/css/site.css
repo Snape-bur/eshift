@@ -1,22 +1,274 @@
+/* General HTML/Body transitions for smooth visual changes (already good) */
 html {
-  font-size: 14px;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/* Loading Spinner (already good) */
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #06b6d4;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/* Card Hover Animation (already good) */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-body {
-  margin-bottom: 60px;
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Added a subtle shadow on hover for better visual feedback */
+    }
+
+/* Hero Section Fallback (already good) */
+.hero {
+    background: url('https://images.pexels.com/photos/7464705/pexels-photo-7464705.jpeg') center/cover no-repeat fixed;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1f2937; /* Fallback */
+}
+
+/* Hero Content (already good) */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0px); /* Changed to 0px for clarity, same as 0 */
+        opacity: 1;
+    }
+}
+
+/* Social Media Icons - **KEY CHANGES HERE** */
+#socials-container .icon {
+    /* Ensure display and dimensions are set. Tailwind's w-8 h-8 set 32px. */
+    display: inline-block; /* Or block, if you prefer, but inline-block is fine for horizontal alignment */
+    /* Remove explicit width/height if Tailwind is handling it, or ensure yours take precedence */
+    /* width: 32px; */ /* If you want to explicitly set it here */
+    /* height: 32px; */ /* If you want to explicitly set it here */
+    cursor: pointer;
+    /* Add perspective for a more pronounced 3D rotation effect */
+    perspective: 1000px; /* Applied to the parent or a container of the rotating element */
+    transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+    /* Removed background-color, it was for debugging */
+}
+
+    #socials-container .icon:hover {
+        /* The rotation itself */
+        transform: rotateY(360deg); /* Use rotateY for a flatter, more obvious rotation around the Y-axis */
+        /* If you want it to spin like a propeller, use rotate(360deg) as you had */
+        /* transform: rotate(360deg); */
+    }
+
+/* Header + Navbar (already good, mostly Tailwind-driven) */
+.wrapper {
+    width: 1280px;
+    max-width: 95%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    padding: 40px 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .logo i {
+        height: 45px;
+        width: 45px;
+        background-color: cyan;
+        border-radius: 50%;
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.5rem;
+        padding: 10px;
+        margin-right: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .logo .logo-text {
+        font-size: 24px;
+        font-weight: 500;
+        color: #fff;
+    }
+
+nav .togglebtn {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 45px;
+    right: 3%;
+    z-index: 5;
+    cursor: pointer;
+    display: none;
+}
+
+    nav .togglebtn span {
+        display: block;
+        background-color: cyan;
+        margin: 5px 0px;
+        width: 100%;
+        height: 3px;
+        transition: 0.3s;
+        transition-property: transform, opacity;
+    }
+
+nav .navlinks {
+    list-style-type: none;
+}
+
+    nav .navlinks li {
+        display: inline-block;
+    }
+
+        nav .navlinks li a {
+            position: relative;
+            color: #e5e5e5;
+            text-decoration: none;
+            margin-right: 2.5rem;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
+
+.navlinks li a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: cyan;
+    transition: width 0.3s ease;
+}
+
+.navlinks li a:hover {
+    color: cyan;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+    .navlinks li a:hover::after {
+        width: 100%;
+    }
+
+.navlinks li a.active {
+    color: cyan;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+    .navlinks li a.active::after {
+        width: 100%;
+    }
+
+/* Hero Content Layout (already good) */
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 4rem;
+}
+
+    .container .hero-pic {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 15px solid #444;
+        box-shadow: 5px 7px 25px rgba(0, 0, 0, 0.5);
+    }
+
+.hero-pic img {
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
+}
+
+    .hero-pic img:hover {
+        transform: scale(1.2);
+    }
+
+.hero-text {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+    .hero-text h5 {
+        color: #e5e5e5;
+        font-size: 14px;
+    }
+
+        .hero-text h5 span {
+            color: cyan;
+            font-size: 16px;
+        }
+
+    .hero-text h1 {
+        color: cyan;
+        font-size: 3rem;
+    }
+
+    .hero-text p {
+        color: #e5e5e5;
+    }
+
+/* Buttons (already good, but completed the box-shadow) */
+.btn-group {
+    margin: 45px 0;
+}
+
+    .btn-group .btn {
+        border-color: #d5d5d5;
+        color: #fff;
+        background-color: #333;
+        padding: 12px 25px;
+        margin: 5px 0px;
+        margin-right: 7px;
+        border-radius: 30px;
+        border: 2px solid #e5e5e5;
+        box-shadow: 0 10px 10px -8px rgba(0, 0, 0, 0.78); /* Fixed the incomplete rgba */
+    }
+
+.btn.active {
+    border-color: cyan;
+}
+
+.btn:hover {
+    border-color: cyan;
+    color: cyan;
+    box-shadow: 0 0 5px cyan, 0 0 15px cyan; /* Completed the box-shadow property */
 }

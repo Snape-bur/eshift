@@ -1,44 +1,81 @@
-﻿@model EShift.Models.Driver
+﻿@using EShift.Models
+@model EShift.Models.Driver
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Driver";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Edit</h1>
+@* Ensure Font Awesome is linked in your _AdminLayout.cshtml for icons to display *@
+@* For example, add the following line in the <head> section of _AdminLayout.cshtml: *@
+@* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> *@
 
-<h4>Driver</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
+<div class="max-w-2xl mx-auto mt-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <i class="fas fa-edit mr-2 text-green-500"></i>Edit Driver
+        </h2>
+
+        <form asp-action="Edit" method="post" novalidate class="space-y-5">
+            <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4 p-3 bg-red-50 rounded-lg border border-red-200"></div>
+            <input type="hidden" asp-for="DriverId" />
+
+            <div>
+                <label asp-for="FullName" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="FullName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="FullName" class="text-red-500 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LicenseNumber" class="control-label"></label>
-                <input asp-for="LicenseNumber" class="form-control" />
-                <span asp-validation-for="LicenseNumber" class="text-danger"></span>
+
+            <div>
+                <label asp-for="Status" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <select asp-for="Status" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        asp-items="Html.GetEnumSelectList<EShift.Models.DriverStatus>()">
+                    <option value="">Select Driver Status</option>
+                </select>
+                <span asp-validation-for="Status" class="text-red-500 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+            <div>
+                <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="PhoneNumber" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="PhoneNumber" class="text-red-500 text-sm mt-1 block"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div>
+                <label asp-for="LicenseNumber" class="block text-sm font-medium text-gray-700 mb-1"></label>
+                <input asp-for="LicenseNumber" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" />
+                <span asp-validation-for="LicenseNumber" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            <div class="flex justify-end pt-4">
+                <button type="submit" class="gradient-btn text-white px-6 py-2 rounded-lg shadow hover:shadow-lg transition-all">
+                    <i class="fas fa-save mr-2"></i>Save Changes
+                </button>
             </div>
         </form>
     </div>
+
+    <div class="text-center mt-6">
+        <a asp-action="Index" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors flex items-center justify-center">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Driver List
+        </a>
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    /* Add a custom gradient button style if not already defined in your CSS */
+    .gradient-btn {
+        background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to Violet */
+        border: none;
+    }
+
+        .gradient-btn:hover {
+            background: linear-gradient(to left, #6366f1, #8b5cf6); /* Reverse gradient on hover */
+        }
+</style>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

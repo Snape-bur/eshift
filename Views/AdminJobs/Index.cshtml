@@ -1,0 +1,89 @@
+﻿@model IEnumerable<EShift.Models.Job>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Ensure this matches your admin layout file
+    ViewData["Title"] = "Manage Jobs";
+}
+
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Job Requests</h2>
+        </div>
+        <!-- Search Bar -->
+        <form method="get" asp-action="Index" class="mb-6 max-w-lg">
+            <div class="flex gap-3 items-center">
+                <input type="text"
+                       name="searchTerm"
+                       value="@(ViewContext.HttpContext.Request.Query["searchTerm"])"
+                       placeholder="Search by name, status, address..."
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-300" />
+                <button type="submit"
+                        class="gradient-btn text-white px-4 py-2 rounded-md flex items-center gap-1">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <p class="text-gray-500 text-center py-6">No job requests found.</p>
+        }
+        else
+        {
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-gray-700">
+                    <thead class="bg-gray-100 text-xs uppercase text-gray-600">
+                        <tr>
+                            <th class="px-6 py-4 rounded-tl-lg">Job ID</th>
+                            <th class="px-6 py-4">Customer Name</th>
+                            <th class="px-6 py-4">Pickup Address</th>
+                            <th class="px-6 py-4">Delivery Address</th>
+                            <th class="px-6 py-4">Move Date</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4 rounded-tr-lg">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach (var job in Model)
+                        {
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4">@job.JobId</td>
+                                <td class="px-6 py-4">@job.CustomerName</td>
+                                <td class="px-6 py-4">@job.PickupAddress</td>
+                                <td class="px-6 py-4">@job.DeliveryAddress</td>
+                                <td class="px-6 py-4">@job.MoveDate.ToString("yyyy-MM-dd")</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                         @(job.Status == "Pending" ? "bg-yellow-100 text-yellow-800" :
+                                                                                             job.Status == "Approved" ? "bg-green-100 text-green-800" :
+                                                                                             job.Status == "Rejected" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800")">
+                                @job.Status
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 space-x-3">
+                            <a asp-action="Details" asp-route-id="@job.JobId" class="text-blue-500 hover:text-blue-700 hover:underline">View Details</a>
+                            <a asp-controller="AdminJobs" asp-action="Assign" asp-route-id="@job.JobId" class="text-indigo-600 hover:text-indigo-900 hover:underline">Assign Job</a>
+
+                        </td>
+                    </tr>
+                                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,157 @@
+﻿@using EShift.Models
+@model JobAssignmentModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Ensure this matches your admin layout file
+    ViewData["Title"] = "Assign Job: " + Model.JobId; // Dynamic title
+}
+
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Assign Job: @Model.JobId</h2>
+
+    @* Display Success/Error Messages *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    @* Display validation errors that are not specific to a field *@
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+            <p>Please correct the following errors:</p>
+            <ul>
+                @foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+
+
+    <form asp-action="Assign" method="post">
+        @* Hidden input for JobId to ensure it's sent back on POST *@
+        <input type="hidden" asp-for="JobId" />
+
+        @* Hidden input for CurrentStatus, if you need it on POST for some logic * @
+        @* <input type="hidden" asp-for="CurrentStatus" /> *@
+
+        @* Display Current Job Information *@
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 border p-4 rounded-lg bg-gray-50">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Customer Name:</label>
+                <p class="mt-1 text-gray-900 font-semibold">@Model.CustomerName</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Pickup Address:</label>
+                <p class="mt-1 text-gray-900">@Model.PickupAddress</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Delivery Address:</label>
+                <p class="mt-1 text-gray-900">@Model.DeliveryAddress</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Move Date:</label>
+                <p class="mt-1 text-gray-900">
+                    @if (Model.MoveDate.HasValue)
+                    {
+                        @Model.MoveDate.Value.ToString("yyyy-MM-dd")
+                    }
+                    else
+                    {
+                        <span>N/A</span> @* Or leave blank, or a specific message *@
+                    }
+                </p>
+            </div>
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">Current Status:</label>
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                @(Model.CurrentStatus == "Pending" ? "bg-yellow-100 text-yellow-800" :
+                                                        Model.CurrentStatus == "Approved" ? "bg-green-100 text-green-800" :
+                                                        Model.CurrentStatus == "In Progress" ? "bg-blue-100 text-blue-800" :
+                                                        Model.CurrentStatus == "Completed" ? "bg-green-100 text-green-800" :
+                                                        Model.CurrentStatus == "Rejected" ? "bg-red-100 text-red-800" :
+                                                        Model.CurrentStatus == "Canceled" ? "bg-gray-100 text-gray-800" : "bg-purple-100 text-purple-800")">
+                    @Model.CurrentStatus
+                </span>
+            </div>
+        </div>
+
+        <hr class="my-6 border-gray-300">
+
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Assignment Details</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            @* New Status Dropdown *@
+            <div>
+                <label asp-for="NewStatus" class="block text-sm font-medium text-gray-700"></label>
+                <select asp-for="NewStatus" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Assigned">Assigned</option> @* New Status: Assigned *@
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
+                <span asp-validation-for="NewStatus" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            @* Driver Dropdown *@
+            <div>
+                <label asp-for="DriverId" class="block text-sm font-medium text-gray-700"></label>
+                <select asp-for="DriverId" asp-items="Model.Drivers" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">-- Select Driver --</option>
+                </select>
+                <span asp-validation-for="DriverId" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            @* Vehicle Dropdown *@
+            <div>
+                <label asp-for="VehicleId" class="block text-sm font-medium text-gray-700"></label>
+                <select asp-for="VehicleId" asp-items="Model.Vehicles" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">-- Select Vehicle --</option>
+                </select>
+                <span asp-validation-for="VehicleId" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            @* Assistants Multi-Select Dropdown *@
+            <div>
+                <label asp-for="SelectedAssistantIds" class="block text-sm font-medium text-gray-700"></label>
+                <select asp-for="SelectedAssistantIds" asp-items="Model.Assistants" multiple class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 h-28">
+                    @* Options will be generated by asp-items *@
+                </select>
+                <span asp-validation-for="SelectedAssistantIds" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            @* Estimated Arrival Date/Time Picker *@
+            <div class="md:col-span-2">
+                <label asp-for="EstimatedArrival" class="block text-sm font-medium text-gray-700"></label>
+                <input asp-for="EstimatedArrival" type="datetime-local" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                <span asp-validation-for="EstimatedArrival" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+        </div>
+
+        @* Form Submission Buttons *@
+        <div class="mt-8 flex justify-end space-x-3">
+            <a asp-action="Index" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Back to List
+            </a>
+            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Save Assignment
+            </button>
+        </div>
+    </form>
+</div>
+

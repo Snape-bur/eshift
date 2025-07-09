@@ -1,0 +1,109 @@
+﻿@model EShift.Models.Job
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; // Ensure this matches your admin layout file
+    ViewData["Title"] = $"Job Details (ID: {Model.JobId})";
+}
+
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Job Details (ID: @Model.JobId)</h1>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 mb-8">
+            <div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Customer Information</h3>
+                <p><strong>Name:</strong> @Model.CustomerName</p>
+                <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+                <p><strong>Email:</strong> @Model.Email</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-800">Job Overview</h3>
+                <p>
+                    <strong>Status:</strong>
+                    <span class="px-2 inline-flex text-sm leading-5 font-semibold rounded-full
+                        @(Model.Status == "Pending" ? "bg-yellow-100 text-yellow-800" :
+                                                    Model.Status == "Approved" ? "bg-green-100 text-green-800" :
+                                                    Model.Status == "Rejected" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-800")">
+                        @Model.Status
+                    </span>
+                </p>
+                <p><strong>Created At:</strong> @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                <p><strong>Move Date:</strong> @Model.MoveDate.ToString("yyyy-MM-dd")</p>
+                <p><strong>Preferred Time:</strong> @Model.MoveTime</p>
+            </div>
+        </div>
+
+        <h3 class="text-xl font-semibold mb-2 text-gray-800">Shifting Details</h3>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-gray-700">
+            <dt class="font-medium">Pickup Address:</dt>
+            <dd>@Model.PickupAddress</dd>
+
+            <dt class="font-medium">Delivery Address:</dt>
+            <dd>@Model.DeliveryAddress</dd>
+
+            <dt class="font-medium">Item Category:</dt>
+            <dd>@Model.Category</dd>
+
+            <dt class="font-medium">Number of Items:</dt>
+            <dd>@Model.ItemCount</dd>
+
+            <dt class="font-medium">Estimated Weight (KG):</dt>
+            <dd>@Model.EstimatedKg</dd>
+
+            <dt class="font-medium md:col-span-2">Special Instructions:</dt>
+            <dd class="md:col-span-2">@(string.IsNullOrEmpty(Model.Instructions) ? "None" : Model.Instructions)</dd>
+        </dl>
+
+        @if (Model.Status == "Pending")
+        {
+            <div class="mt-8 flex space-x-4">
+                <form asp-controller="AdminJobs" asp-action="Approve" asp-route-id="@Model.JobId" method="post" onsubmit="return confirm('Are you sure you want to approve this job?');">
+                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                        <i class="fas fa-check-circle mr-2"></i> Approve Job
+                    </button>
+                </form>
+
+                <form asp-controller="AdminJobs" asp-action="Reject" asp-route-id="@Model.JobId" method="post" onsubmit="return confirm('Are you sure you want to reject this job? This action cannot be undone.');">
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                        <i class="fas fa-times-circle mr-2"></i> Reject Job
+                    </button>
+                </form>
+            </div>
+        }
+        else if (Model.Status == "Approved")
+        {
+            <div class="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+                <p class="font-semibold"><i class="fas fa-info-circle mr-2"></i>This job has been Approved.</p>
+                @* This is where you would later add a link/section for assigning resources *@
+                <p class="mt-2">Next step: Assign resources (driver, vehicle, assistants) to this job.</p>
+            </div>
+        }
+        else if (Model.Status == "Rejected")
+        {
+            <div class="mt-8 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+                <p class="font-semibold"><i class="fas fa-info-circle mr-2"></i>This job has been Rejected.</p>
+            </div>
+        }
+        else
+        {
+            <p class="mt-8 text-gray-600">This job is currently in "@Model.Status" status.</p>
+        }
+
+        <div class="mt-8">
+            <a asp-controller="AdminJobs" asp-action="Index" class="text-cyan-400 hover:underline">&larr; Back to Job List</a>
+        </div>
+    </div>
+</div>

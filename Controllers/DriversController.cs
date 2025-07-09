@@ -20,11 +20,23 @@ namespace EShift.Controllers
         }
 
         // GET: Drivers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm)
         {
-              return _context.Drivers != null ? 
-                          View(await _context.Drivers.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Drivers'  is null.");
+            if (_context.Drivers == null)
+                return Problem("Entity set 'ApplicationDbContext.Drivers' is null.");
+
+            var drivers = from d in _context.Drivers select d;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                drivers = drivers.Where(d => d.FullName.ToLower().Contains(searchTerm)
+                                           || d.PhoneNumber.Contains(searchTerm)
+                                           || d.LicenseNumber.ToLower().Contains(searchTerm));
+            }
+
+            ViewData["CurrentFilter"] = searchTerm;
+            return View(await drivers.ToListAsync());
         }
 
         // GET: Drivers/Details/5
@@ -36,7 +48,7 @@ namespace EShift.Controllers
             }
 
             var driver = await _context.Drivers
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.DriverId == id);
             if (driver == null)
             {
                 return NotFound();
@@ -56,7 +68,7 @@ namespace EShift.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FullName,LicenseNumber,PhoneNumber")] Driver driver)
+        public async Task<IActionResult> Create([Bind("DriverId,FullName,Status,PhoneNumber,LicenseNumber")] Driver driver)
         {
             if (ModelState.IsValid)
             {
@@ -88,9 +100,9 @@ namespace EShift.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FullName,LicenseNumber,PhoneNumber")] Driver driver)
+        public async Task<IActionResult> Edit(int id, [Bind("DriverId,FullName,Status,PhoneNumber,LicenseNumber")] Driver driver)
         {
-            if (id != driver.Id)
+            if (id != driver.DriverId)
             {
                 return NotFound();
             }
@@ -104,7 +116,7 @@ namespace EShift.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DriverExists(driver.Id))
+                    if (!DriverExists(driver.DriverId))
                     {
                         return NotFound();
                     }
@@ -127,7 +139,7 @@ namespace EShift.Controllers
             }
 
             var driver = await _context.Drivers
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.DriverId == id);
             if (driver == null)
             {
                 return NotFound();
@@ -157,7 +169,7 @@ namespace EShift.Controllers
 
         private bool DriverExists(int id)
         {
-          return (_context.Drivers?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Drivers?.Any(e => e.DriverId == id)).GetValueOrDefault();
         }
     }
 }

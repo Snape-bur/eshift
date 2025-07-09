@@ -17,9 +17,12 @@ namespace EShift.Models
         [Required]
         public string Address { get; set; }
 
-        [ForeignKey("IdentityUser")]
-        public string IdentityUserId { get; set; }
+        [Required(ErrorMessage = "Please select an associated user.")]
+        [ForeignKey("AppUser")]
+        public string AppUserId { get; set; }
 
-        public virtual IdentityUser IdentityUser { get; set; }
+        public virtual AppUser AppUser { get; set; }
+        public List<Job> Jobs { get; set; } = new List<Job>();
+
     }
 }

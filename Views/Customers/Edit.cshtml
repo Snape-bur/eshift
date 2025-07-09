@@ -1,0 +1,70 @@
+﻿@using EShift.Models
+@model Customer
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<!-- Navbar -->
+<nav class="fixed top-0 left-0 right-0 bg-gray-900 text-white z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <img src="/images/logo.png" class="h-8 w-8" alt="e-Shift Logo">
+            <span class="text-red-500 font-bold text-xl">e-Shift</span>
+        </div>
+        <div class="flex space-x-6 items-center">
+            <a href="/Customer/Dashboard" class="hover:text-cyan-400">Dashboard</a>
+            <a href="/Customers/Edit" class="hover:text-cyan-400">Edit Profile</a>
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="inline">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Heading -->
+<section class="pt-28 pb-10 bg-gray-100">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold text-gray-800 mb-2">Edit Your Profile</h1>
+        <p class="text-gray-600">Update your contact and address details below.</p>
+    </div>
+</section>
+
+<!-- Form Section -->
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md mb-12">
+    <form asp-action="Edit" method="post" class="grid grid-cols-1 gap-6">
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <label asp-for="FullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+            <input asp-for="FullName" class="mt-1 block w-full p-3 border rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" />
+            <span asp-validation-for="FullName" class="text-red-500 text-sm"></span>
+        </div>
+        <div>
+            <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <input asp-for="PhoneNumber" class="mt-1 block w-full p-3 border rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" />
+            <span asp-validation-for="PhoneNumber" class="text-red-500 text-sm"></span>
+        </div>
+        <div>
+            <label asp-for="Address" class="block text-sm font-medium text-gray-700">Address</label>
+            <input asp-for="Address" class="mt-1 block w-full p-3 border rounded-lg shadow-sm focus:ring-cyan-500 focus:border-cyan-500" />
+            <span asp-validation-for="Address" class="text-red-500 text-sm"></span>
+        </div>
+
+        <!-- AppUserId should be hidden for customers -->
+        <input type="hidden" asp-for="AppUserId" />
+
+        <div class="text-center">
+            <button type="submit" class="bg-cyan-600 text-white px-6 py-3 rounded-full hover:bg-cyan-700 transition font-semibold shadow-md">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-8 text-center">
+    <p class="text-gray-400">© 2025 e-Shift. All rights reserved.</p>
+</footer>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

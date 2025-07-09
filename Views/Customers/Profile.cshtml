@@ -1,0 +1,118 @@
+﻿@using EShift.Models
+@model Customer
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav class="fixed top-0 left-0 right-0 bg-gray-900 text-white z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <img src="/images/logo.png" class="h-8 w-8" alt="e-Shift Logo">
+            <span class="text-red-500 font-bold text-xl">e-Shift</span>
+        </div>
+        <div class="flex space-x-6 items-center">
+            <partial name="_LoginPartial" />
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 pt-32 pb-20">
+    <section id="profile" class="mb-12">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-900">Profile Management</h2>
+            <a href="/Customers/Index" class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-full transition text-sm font-medium">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Update Profile</h3>
+            @if (TempData["Success"] != null)
+            {
+                <div class="mb-4 p-4 rounded bg-green-100 text-green-800 font-semibold">
+                    @TempData["Success"]
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="mb-4 p-4 rounded bg-red-100 text-red-800 font-semibold">
+                    @TempData["Error"]
+                </div>
+            }
+
+            <form asp-action="Profile" asp-controller="Customers" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @Html.AntiForgeryToken()
+
+                <div>
+                    <label asp-for="FullName" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="FullName" class="form-input mt-1 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="John Doe" />
+                    <span asp-validation-for="FullName" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Address" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="Address" class="form-input mt-1 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="123 Main St, City" />
+                    <span asp-validation-for="Address" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label asp-for="PhoneNumber" class="block text-sm font-medium text-gray-700"></label>
+                    <input asp-for="PhoneNumber" class="form-input mt-1 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="+1-800-123-4567" />
+                    <span asp-validation-for="PhoneNumber" class="text-red-500 text-sm"></span>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Current Password</label>
+                    <input type="password" name="CurrentPassword" class="form-input mt-1 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Enter current password" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">New Password</label>
+                    <input type="password" name="NewPassword" class="form-input mt-1 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Enter new password" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                    <input type="password" name="ConfirmPassword" class="form-input mt-1 w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Confirm new password" />
+                </div>
+
+                <div class="md:col-span-2">
+                    <button type="submit" class="btn-primary text-white px-6 py-3 rounded-full shadow-md hover:shadow-xl transition w-full md:w-auto">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div> @* This closes the main content div *@
+
+<!-- Footer -->
+<footer id="contact" class="bg-gray-900 text-white py-10">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h3 class="text-2xl font-bold mb-2">Contact Us</h3>
+        <p>Email: <a href="mailto:support@eshift.com" class="hover:text-cyan-400">support@eshift.com</a> | Phone: <a href="tel:+18001234567" class="hover:text-cyan-400">+1-800-123-4567</a></p>
+        <div id="socials-container" class="flex justify-center space-x-4 mt-4">
+            <a href="https://facebook.com/your-eshift-profile" target="_blank" rel="noopener noreferrer" aria-label="Follow e-Shift on Facebook">
+                <img src="@Url.Content("~/images/icons8-facebook.svg")"
+                     alt="e-Shift Facebook profile"
+                     class="icon w-8 h-8"
+                     onclick="location.href='https://facebook.com/your-eshift-profile'" />
+            </a>
+            <a href="https://instagram.com/your-eshift-profile" target="_blank" rel="noopener noreferrer" aria-label="Follow e-Shift on Instagram">
+                <img src="@Url.Content("~/images/icons8-instagram.svg")"
+                     alt="e-Shift Instagram profile"
+                     class="icon w-8 h-8"
+                     onclick="location.href='https://instagram.com/your-eshift-profile'" />
+            </a>
+            <a href="https://tiktok.com/your-eshift-profile" target="_blank" rel="noopener noreferrer" aria-label="Follow e-Shift on TikTok">
+                <img src="@Url.Content("~/images/icons8-tiktok.svg")"
+                     alt="e-Shift TikTok profile"
+                     class="icon w-8 h-8"
+                     onclick="location.href='https://tiktok.com/your-eshift-profile'" />
+            </a>
+        </div>
+        <p class="mt-4 text-gray-400">© 2025 e-Shift. All rights reserved.</p>
+    </div>
+</footer>

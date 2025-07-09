@@ -1,0 +1,184 @@
+﻿@model EShift.Models.ViewModels.AdminDashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-10 text-center sm:text-left">Admin Dashboard</h1>
+
+    @* --- Job Status Summary Cards --- *@
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
+        @{
+            var cardData = new List<(string title, int value, string bgColorClass, string iconClass, string textColorClass)>
+                {
+                ("Total Jobs", Model.TotalJobs, "bg-gradient-to-br from-indigo-500 to-indigo-700", "fas fa-briefcase", "text-indigo-100"),
+                ("Pending", Model.PendingJobs, "bg-gradient-to-br from-yellow-400 to-yellow-600", "fas fa-hourglass-half", "text-yellow-100"),
+                ("Assigned / In Progress", Model.AssignedJobs + Model.InProgressJobs, "bg-gradient-to-br from-blue-500 to-blue-700", "fas fa-truck-moving", "text-blue-100"),
+                ("Completed", Model.CompletedJobs, "bg-gradient-to-br from-green-500 to-green-700", "fas fa-check-circle", "text-green-100"),
+                ("Rejected / Canceled", Model.RejectedJobs + Model.CanceledJobs, "bg-gradient-to-br from-red-500 to-red-700", "fas fa-times-circle", "text-red-100")
+                };
+        }
+
+        @foreach (var card in cardData)
+        {
+            <div class="@card.bgColorClass text-white p-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out flex flex-col justify-between items-start cursor-pointer">
+                <div class="flex items-center mb-3">
+                    <i class="@card.iconClass text-3xl @card.textColorClass mr-3"></i>
+                    <h3 class="text-xl font-semibold opacity-90">@card.title</h3>
+                </div>
+                <p class="text-6xl font-bold">@card.value</p>
+            </div>
+        }
+    </section>
+
+    @* --- Key Reports Section (Weekly, Monthly, and Chart) --- *@
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6">Activity Overview</h3>
+            <ul class="space-y-5 text-gray-700 text-lg">
+                <li class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                    <span class="font-medium text-gray-600">New Jobs This Week:</span>
+                    <span class="font-extrabold text-indigo-600 text-2xl">@Model.JobsCreatedThisWeek</span>
+                </li>
+                <li class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                    <span class="font-medium text-gray-600">New Jobs This Month:</span>
+                    <span class="font-extrabold text-indigo-600 text-2xl">@Model.JobsCreatedThisMonth</span>
+                </li>
+                <li class="flex justify-between items-center py-3 border-b border-gray-100 last:border-b-0">
+                    <span class="font-medium text-gray-600">Jobs Completed This Month:</span>
+                    <span class="font-extrabold text-green-600 text-2xl">@Model.CompletedJobsThisMonth</span>
+                </li>
+                <li class="flex justify-between items-center py-3 last:border-b-0">
+                    <span class="font-medium text-gray-600">Jobs Completed Last Month:</span>
+                    <span class="font-extrabold text-green-600 text-2xl">@Model.CompletedJobsLastMonth</span>
+                </li>
+            </ul>
+            <div class="mt-6 flex gap-4">
+                <form asp-action="ExportToExcel" method="post">
+                    <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">📥 Export to Excel</button>
+                </form>
+                <form asp-action="ExportToPdf" method="post">
+                    <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">📄 Export to PDF</button>
+                </form>
+            </div>
+        </div>
+
+        @* Chart Section (Replaces Placeholder) *@
+        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Job Status Distribution</h3>
+            <canvas id="jobChart" height="250"></canvas>
+        </div>
+    </section>
+
+    @* --- Recent Job History Table --- *@
+    <section class="bg-white rounded-xl shadow-lg p-8">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Recent Job History</h3>
+
+        @if (!Model.RecentJobs.Any())
+        {
+            <div class="bg-gray-50 text-gray-500 text-center py-10 rounded-lg border border-dashed border-gray-200">
+                <p class="text-lg mb-2">No recent job history found.</p>
+                <p class="text-sm">New jobs will appear here as they are created or updated.</p>
+            </div>
+        }
+        else
+        {
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table class="min-w-full text-left text-gray-700">
+                    <thead class="bg-gray-50 text-sm uppercase text-gray-600">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 font-semibold text-gray-700 tracking-wider">Job ID</th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-gray-700 tracking-wider">Customer Name</th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-gray-700 tracking-wider">Move Date</th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-gray-700 tracking-wider">Status</th>
+                            <th scope="col" class="px-6 py-4 font-semibold text-gray-700 tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @foreach (var job in Model.RecentJobs)
+                        {
+                            <tr class="hover:bg-gray-50 transition-colors duration-150 ease-in-out">
+                                <td class="px-6 py-4 font-mono text-gray-900">#@job.JobId</td>
+                                <td class="px-6 py-4 font-medium text-gray-900">@job.CustomerName</td>
+                                <td class="px-6 py-4 text-gray-600">@job.MoveDate.ToString("MMM dd, yyyy")</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @{
+                                        string statusClass = "";
+                                        string statusTextClass = "";
+                                        switch (job.Status)
+                                        {
+                                            case "Pending":
+                                                statusClass = "bg-yellow-100";
+                                                statusTextClass = "text-yellow-800";
+                                                break;
+                                            case "Approved":
+                                            case "Assigned":
+                                            case "In Progress":
+                                                statusClass = "bg-blue-100";
+                                                statusTextClass = "text-blue-800";
+                                                break;
+                                            case "Completed":
+                                                statusClass = "bg-green-100";
+                                                statusTextClass = "text-green-800";
+                                                break;
+                                            case "Rejected":
+                                            case "Canceled":
+                                                statusClass = "bg-red-100";
+                                                statusTextClass = "text-red-800";
+                                                break;
+                                            default:
+                                                statusClass = "bg-gray-100";
+                                                statusTextClass = "text-gray-800";
+                                                break;
+                                        }
+                                    }
+                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full @statusClass @statusTextClass">
+                                        @job.Status
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a asp-controller="AdminJobs" asp-action="Assign" asp-route-id="@job.JobId" class="text-indigo-600 hover:text-indigo-800 font-medium transition-colors duration-200">View/Assign <i class="fas fa-arrow-right ml-1 text-sm"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('jobChart').getContext('2d');
+            const jobChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pending', 'Assigned', 'Completed', 'Rejected'],
+                    datasets: [{
+                        label: 'Job Status',
+                        data: [@Model.PendingJobs, @Model.AssignedJobs + @Model.InProgressJobs, @Model.CompletedJobs, @Model.RejectedJobs + @Model.CanceledJobs],
+                        backgroundColor: ['#facc15', '#3b82f6', '#22c55e', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Job Status Breakdown'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}

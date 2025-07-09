@@ -1,8 +1,338 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Navigation Bar -->
+<section class="fixed top-0 left-0 right-0 bg-gray-900 text-white z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <img src="@Url.Content("~/images/logo.png")" class="h-8 w-8" alt="e-Shift Logo" loading="lazy">
+            <span class="text-red-500 font-bold text-xl">e-Shift</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <nav class="hidden md:flex space-x-6 items-center">
+                <a href="#services" class="hover:text-red-400">Services</a>
+                <a href="#how-it-works" class="hover:text-red-400">How It Works</a>
+                <a href="#testimonials" class="hover:text-red-400">Testimonials</a>
+                <a href="#track" class="hover:text-red-400">Track Job</a>
+                <a href="#contact" class="hover:text-red-400">Contact</a>
+                <partial name="_LoginPartial" />
+            </nav>
+</section>
+
+<!-- Hero Section -->
+<section class="pt-28 relative text-white text-center" style="background-image: url('https://images.pexels.com/photos/7464705/pexels-photo-7464705.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; height: 100vh;">
+    <div class="absolute inset-0 bg-black bg-opacity-70 z-0"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 text-center flex flex-col justify-center items-center h-full">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Move Smarter. Shift Faster.</h1>
+        <p class="text-lg text-gray-200 mb-8">Safe, Reliable, and On-Time Household Goods Transport</p>
+        <div class="flex justify-center space-x-6">
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn-primary btn-orange text-white px-6 py-3 rounded-full shadow-md hover:shadow-xl transition w-full md:w-auto">
+                Get Started
+            </a>
+            <a href="#track" class="btn-primary btn-orange text-white px-6 py-3 rounded-full shadow-md hover:shadow-xl transition w-full md:w-auto">
+                Track Your Job
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-16 bg-white dark:bg-gray-800 dark:text-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white text-center mb-12">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="text-3xl mb-4" aria-hidden="true">📋</div>
+                <h3 class="font-semibold text-lg mb-2">Book a Job</h3>
+                <p class="text-gray-600 dark:text-gray-300">Fill in your move details, select pickup and destination, and book a job online.</p>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="text-3xl mb-4" aria-hidden="true">🚚</div>
+                <h3 class="font-semibold text-lg mb-2">We Transport</h3>
+                <p class="text-gray-600 dark:text-gray-300">Our expert movers handle your goods with care and deliver them on time.</p>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="text-3xl mb-4" aria-hidden="true">📦</div>
+                <h3 class="font-semibold text-lg mb-2">Receive Items</h3>
+                <p class="text-gray-600 dark:text-gray-300">You receive your goods safely at your new location. Job done right!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-16 bg-gray-200 dark:bg-gray-900 dark:text-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12">Our Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg text-center hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="text-4xl mb-4" aria-hidden="true">🏠</div>
+                <h3 class="text-xl font-semibold mb-2">Home Shifting</h3>
+                <p class="text-gray-600 dark:text-gray-300">Complete residential relocation with packing, loading, and delivery.</p>
+            </div>
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg text-center hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="text-4xl mb-4" aria-hidden="true">🏢</div>
+                <h3 class="text-xl font-semibold mb-2">Office Moves</h3>
+                <p class="text-gray-600 dark:text-gray-300">Relocate your workspace smoothly with minimal disruption.</p>
+            </div>
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg text-center hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="text-4xl mb-4" aria-hidden="true">🚛</div>
+                <h3 class="text-xl font-semibold mb-2">Vehicle Transport</h3>
+                <p class="text-gray-600 dark:text-gray-300">Move your car, bike, or other vehicles securely across the country.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Choose Your Vehicle Section -->
+<section class="py-16 bg-white dark:bg-gray-800 dark:text-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-10">Choose Your Vehicle</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Motorcycle -->
+            <div class="col-span-1">
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 text-center card">
+                    <input type="checkbox" name="compare" value="motorcycle" class="mr-2" aria-label="Compare Motorcycle">
+                    <img src="/images/vespa-7456291_1280.png" alt="Motorcycle for small parcel delivery" class="mx-auto h-32 mb-4" loading="lazy">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Motorcycle</h3>
+                    <button id="motorcycleToggleIcon" onclick="toggleDetails('motorcycleDetails')" aria-expanded="false" aria-controls="motorcycleDetails" class="text-orange-500 hover:text-orange-700">+</button>
+                </div>
+                <div id="motorcycleDetails" class="bg-gray-50 dark:bg-gray-600 py-6 px-6 mt-4 rounded-xl hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Motorcycle</h3>
+                    <img src="/images/vespa-7456291_1280.png" alt="Motorcycle for small parcel delivery" class="w-full max-h-48 object-contain mb-4" loading="lazy">
+                    <div class="space-y-2 text-left">
+                        <p><span class="font-semibold">Weight Limit:</span> 20 kilograms</p>
+                        <p><span class="font-semibold">Standard Size (W × L × H):</span> 50 × 50 × 50 cm</p>
+                        <p><span class="font-semibold">Suitable Products:</span> Documents, small parcels, food deliveries</p>
+                        <p><span class="font-semibold">Note:</span> Ideal for quick and small deliveries in congested areas.</p>
+                        <hr class="my-3 border-gray-300 dark:border-gray-500">
+                        <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200">📦 Pricing Details</h4>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300">
+                            <li><strong>Base Fee:</strong> 150 THB</li>
+                            <li><strong>Rate per km:</strong> 10 THB</li>
+                            <li><strong>Rate per kg:</strong> 5 THB</li>
+                            <li><strong>Packing Service:</strong> +200 THB (optional)</li>
+                            <li><strong>Insurance:</strong> +2% of declared item value (optional)</li>
+                        </ul>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 italic">*Final cost depends on distance, weight, and extra services.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 4-door Sedan -->
+            <div class="col-span-1">
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 text-center card">
+                    <input type="checkbox" name="compare" value="sedan" class="mr-2" aria-label="Compare 4-door Sedan">
+                    <img src="/images/nissan-885308_1920-removebg-preview.png" alt="4-door Sedan for medium-sized deliveries" class="mx-auto h-32 mb-4" loading="lazy">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">4-door Sedan</h3>
+                    <button id="sedanToggleIcon" onclick="toggleDetails('sedanDetails')" aria-expanded="false" aria-controls="sedanDetails" class="text-orange-500 hover:text-orange-700">+</button>
+                </div>
+                <div id="sedanDetails" class="bg-gray-50 dark:bg-gray-600 py-6 px-6 mt-4 rounded-xl hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">4-door Sedan</h3>
+                    <img src="/images/nissan-885308_1920-removebg-preview.png" alt="4-door Sedan for medium-sized deliveries" class="w-full max-h-48 object-contain mb-4" loading="lazy">
+                    <div class="space-y-2 text-left">
+                        <p><span class="font-semibold">Weight Limit:</span> 100 kilograms</p>
+                        <p><span class="font-semibold">Standard Size (W × L × H):</span> 90 × 100 × 75 cm</p>
+                        <p><span class="font-semibold">Suitable Products:</span> Flowers, fruits, cakes, balloons, boxed food</p>
+                        <p><span class="font-semibold">Note:</span> SUVs and 4-door pickups can also serve this category</p>
+                        <hr class="my-3 border-gray-300 dark:border-gray-500">
+                        <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200">📦 Pricing Details</h4>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300">
+                            <li><strong>Base Fee:</strong> 250 THB</li>
+                            <li><strong>Rate per km:</strong> 15 THB</li>
+                            <li><strong>Rate per kg:</strong> 8 THB</li>
+                            <li><strong>Packing Service:</strong> +300 THB (optional)</li>
+                            <li><strong>Insurance:</strong> +2% of declared item value (optional)</li>
+                        </ul>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 italic">*Final cost depends on distance, weight, and extra services.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 5-door Car -->
+            <div class="col-span-1">
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 text-center card">
+                    <input type="checkbox" name="compare" value="car" class="mr-2" aria-label="Compare 5-door Car">
+                    <img src="/images/nam-cz-s4qL9FTILWo-unsplash-removebg-preview.png" alt="5-door Car for medium-sized deliveries" class="mx-auto h-32 mb-4" loading="lazy">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">5-door Car</h3>
+                    <button id="carToggleIcon" onclick="toggleDetails('carDetails')" aria-expanded="false" aria-controls="carDetails" class="text-orange-500 hover:text-orange-700">+</button>
+                </div>
+                <div id="carDetails" class="bg-gray-50 dark:bg-gray-600 py-6 px-6 mt-4 rounded-xl hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">5-door Car</h3>
+                    <img src="/images/nam-cz-s4qL9FTILWo-unsplash-removebg-preview.png" alt="5-door Car for medium-sized deliveries" class="w-full max-h-48 object-contain mb-4" loading="lazy">
+                    <div class="space-y-2 text-left">
+                        <p><span class="font-semibold">Weight Limit:</span> 200 kilograms</p>
+                        <p><span class="font-semibold">Standard Size (W × L × H):</span> 115 × 115 × 80 cm</p>
+                        <p><span class="font-semibold">Suitable Products:</span> Cakes, boxed goods, flowers, fruits</p>
+                        <p><span class="font-semibold">Note:</span> SUVs and 4-door pickups can serve this category</p>
+                        <hr class="my-3 border-gray-300 dark:border-gray-500">
+                        <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200">📦 Pricing Details</h4>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300">
+                            <li><strong>Base Fee:</strong> 300 THB</li>
+                            <li><strong>Rate per km:</strong> 18 THB</li>
+                            <li><strong>Rate per kg:</strong> 10 THB</li>
+                            <li><strong>Packing Service:</strong> +350 THB (optional)</li>
+                            <li><strong>Insurance:</strong> +2% of declared item value (optional)</li>
+                        </ul>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 italic">*Final cost depends on distance, weight, and extra services.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Pickup Truck -->
+            <div class="col-span-1">
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 text-center card">
+                    <input type="checkbox" name="compare" value="pickupTruck" class="mr-2" aria-label="Compare Pickup Truck">
+                    <img src="/images/revo_pickup-removebg-preview.png" alt="Pickup Truck for large items" class="mx-auto h-32 mb-4" loading="lazy">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Pickup Truck</h3>
+                    <button id="pickupTruckToggleIcon" onclick="toggleDetails('pickupTruckDetails')" aria-expanded="false" aria-controls="pickupTruckDetails" class="text-orange-500 hover:text-orange-700">+</button>
+                </div>
+                <div id="pickupTruckDetails" class="bg-gray-50 dark:bg-gray-600 py-6 px-6 mt-4 rounded-xl hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Pickup Truck</h3>
+                    <img src="/images/revo_pickup-removebg-preview.png" alt="Pickup Truck for large items" class="w-full max-h-48 object-contain mb-4" loading="lazy">
+                    <div class="space-y-2 text-left">
+                        <p><span class="font-semibold">Weight Limit:</span> 1,100 kilograms</p>
+                        <p><span class="font-semibold">Standard Size (W × L × H):</span> 170 × 180 × 90 cm</p>
+                        <p><span class="font-semibold">Suitable Products:</span> Large boxes, furniture, construction materials, large plants</p>
+                        <p><span class="font-semibold">Note:</span> Ideal for heavier and bulkier items that require open-bed transport.</p>
+                        <hr class="my-3 border-gray-300 dark:border-gray-500">
+                        <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200">📦 Pricing Details</h4>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300">
+                            <li><strong>Base Fee:</strong> 500 THB</li>
+                            <li><strong>Rate per km:</strong> 25 THB</li>
+                            <li><strong>Rate per kg:</strong> 15 THB</li>
+                            <li><strong>Packing Service:</strong> +500 THB (optional)</li>
+                            <li><strong>Insurance:</strong> +2% of declared item value (optional)</li>
+                        </ul>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 italic">*Final cost depends on distance, weight, and extra services.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Multi-purpose Vehicle -->
+            <div class="col-span-1">
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 text-center card">
+                    <input type="checkbox" name="compare" value="mpv" class="mr-2" aria-label="Compare Multi-purpose Vehicle">
+                    <img src="/images/hiace_van-removebg-preview.png" alt="Multi-purpose Vehicle for delicate transport" class="mx-auto h-32 mb-4" loading="lazy">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">Multi-purpose Vehicle</h3>
+                    <button id="mpvToggleIcon" onclick="toggleDetails('mpvDetails')" aria-expanded="false" aria-controls="mpvDetails" class="text-orange-500 hover:text-orange-700">+</button>
+                </div>
+                <div id="mpvDetails" class="bg-gray-50 dark:bg-gray-600 py-6 px-6 mt-4 rounded-xl hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Multi-purpose Vehicle</h3>
+                    <img src="/images/hiace_van-removebg-preview.png" alt="Multi-purpose Vehicle for delicate transport" class="w-full max-h-48 object-contain mb-4" loading="lazy">
+                    <div class="space-y-2 text-left">
+                        <p><span class="font-semibold">Weight Limit:</span> 300 kilograms</p>
+                        <p><span class="font-semibold">Standard Size (W × L × H):</span> 130 × 160 × 80 cm</p>
+                        <p><span class="font-semibold">Suitable Products:</span> Cakes, fruits, potted plants, sensitive equipment</p>
+                        <p><span class="font-semibold">Note:</span> Ideal for items requiring enclosed, climate-controlled, or delicate transport.</p>
+                        <hr class="my-3 border-gray-300 dark:border-gray-500">
+                        <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200">📦 Pricing Details</h4>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300">
+                            <li><strong>Base Fee:</strong> 600 THB</li>
+                            <li><strong>Rate per km:</strong> 30 THB</li>
+                            <li><strong>Rate per kg:</strong> 12 THB</li>
+                            <li><strong>Packing Service:</strong> +400 THB (optional)</li>
+                            <li><strong>Insurance:</strong> +2% of declared item value (optional)</li>
+                        </ul>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 italic">*Final cost depends on distance, weight, and extra services.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 6 Wheel Fuso Truck -->
+            <div class="col-span-1">
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 text-center card">
+                    <input type="checkbox" name="compare" value="fusoTruck" class="mr-2" aria-label="Compare 6 Wheel Fuso Truck">
+                    <img src="/images/Fuso_Truck-removebg-preview.png" alt="6 Wheel Fuso Truck for industrial transport" class="mx-auto h-32 mb-4" loading="lazy">
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">6 Wheel Fuso Truck</h3>
+                    <button id="fusoTruckToggleIcon" onclick="toggleDetails('fusoTruckDetails')" aria-expanded="false" aria-controls="fusoTruckDetails" class="text-orange-500 hover:text-orange-700">+</button>
+                </div>
+                <div id="fusoTruckDetails" class="bg-gray-50 dark:bg-gray-600 py-6 px-6 mt-4 rounded-xl hidden">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">6 Wheel Fuso Truck</h3>
+                    <img src="/images/Fuso_Truck-removebg-preview.png" alt="6 Wheel Fuso Truck for industrial transport" class="w-full max-h-48 object-contain mb-4" loading="lazy">
+                    <div class="space-y-2 text-left">
+                        <p><span class="font-semibold">Weight Limit:</span> 2,400 kilograms</p>
+                        <p><span class="font-semibold">Standard Size (W × L × H):</span> 180 × 300 × 200 cm</p>
+                        <p><span class="font-semibold">Suitable Products:</span> Heavy machinery, large construction materials, bulk goods</p>
+                        <p><span class="font-semibold">Note:</span> For industrial-scale transportation and large-volume logistics.</p>
+                        <hr class="my-3 border-gray-300 dark:border-gray-500">
+                        <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-200">📦 Pricing Details</h4>
+                        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300">
+                            <li><strong>Base Fee:</strong> 1000 THB</li>
+                            <li><strong>Rate per km:</strong> 50 THB</li>
+                            <li><strong>Rate per kg:</strong> 20 THB</li>
+                            <li><strong>Packing Service:</strong> +800 THB (optional)</li>
+                            <li><strong>Insurance:</strong> +2% of declared item value (optional)</li>
+                        </ul>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 italic">*Final cost depends on distance, weight, and extra services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8">
+            <button onclick="showComparison()" class="btn-primary btn-orange text-white px-6 py-3 rounded-full shadow-md hover:shadow-xl transition w-full md:w-auto">Compare Selected Vehicles</button>
+        </div>
+        <div id="comparisonTable" class="hidden bg-gray-50 dark:bg-gray-700 p-6 mt-4 rounded-xl"></div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-16 bg-gray-100 dark:bg-gray-900 dark:text-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <p class="text-gray-600 dark:text-gray-300">"e-Shift made my move seamless and stress-free!"</p>
+                <p class="font-semibold mt-2">– John Doe</p>
+            </div>
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <p class="text-gray-600 dark:text-gray-300">"Fast, reliable, and affordable. Highly recommend!"</p>
+                <p class="font-semibold mt-2">– Jane Smith</p>
+            </div>
+            <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <p class="text-gray-600 dark:text-gray-300">"The vehicle tracking feature is a game-changer!"</p>
+                <p class="font-semibold mt-2">– Alex Brown</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Track Job Section -->
+<section id="track" class="py-16 bg-white dark:bg-gray-800 dark:text-white">
+    <div class="max-w-md mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-6">Track Your Job</h2>
+        <div class="flex w-full">
+            <label for="jobId" class="sr-only">Enter Job ID</label>
+            <input type="text" id="jobId" placeholder="Enter Job ID" class="w-full p-3 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="trackJob()" class="bg-blue-600 text-white px-6 py-3 rounded-r-lg hover:bg-blue-700 transition">Track</button>
+        </div>
+        <div id="trackResult" class="mt-4 text-gray-700 dark:text-gray-300"></div>
+        <div id="loadingSpinner" class="loading-spinner hidden mt-4"></div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="contact" class="bg-gray-900 text-white py-10">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h3 class="text-2xl font-bold mb-2">Contact Us</h3>
+        <p>Email: <a href="mailto:support@eshift.com" class="hover:text-cyan-400">support@eshift.com</a> | Phone: <a href="tel:+18001234567" class="hover:text-cyan-400">+1-800-123-4567</a></p>
+        <div id="socials-container" class="flex justify-center space-x-4 mt-4">
+            <a href="https://facebook.com/your-eshift-profile" target="_blank" rel="noopener noreferrer" aria-label="Follow e-Shift on Facebook">
+                <img src="@Url.Content("~/images/icons8-facebook.svg")"
+                     alt="e-Shift Facebook profile"
+                     class="icon w-8 h-8"
+                     onclick="location.href='https://facebook.com/your-eshift-profile'" />
+            </a>
+            <a href="https://instagram.com/your-eshift-profile" target="_blank" rel="noopener noreferrer" aria-label="Follow e-Shift on Instagram">
+                <img src="@Url.Content("~/images/icons8-instagram.svg")"
+                     alt="e-Shift Instagram profile"
+                     class="icon w-8 h-8"
+                     onclick="location.href='https://instagram.com/your-eshift-profile'" />
+            </a>
+            <a href="https://tiktok.com/your-eshift-profile" target="_blank" rel="noopener noreferrer" aria-label="Follow e-Shift on TikTok">
+                <img src="@Url.Content("~/images/icons8-tiktok.svg")"
+                     alt="e-Shift TikTok profile"
+                     class="icon w-8 h-8"
+                     onclick="location.href='https://tiktok.com/your-eshift-profile'" />
+            </a>
+        </div>
+        <p class="mt-4 text-gray-400">© 2025 e-Shift. All rights reserved.</p>
+    </div>
+</footer>

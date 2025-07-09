@@ -1,0 +1,53 @@
+﻿@using EShift.Models
+@model List<Admin>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Admin Users";
+}
+
+<div class="max-w-7xl mx-auto">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Admin Users</h2>
+            <a asp-action="Create" class="gradient-btn text-white px-4 py-2 rounded-lg shadow hover:shadow-lg">
+                <i class="fas fa-plus mr-2"></i>Create New Admin
+            </a>
+        </div>
+
+        @if (!Model.Any())
+        {
+            <p class="text-gray-500 text-center py-6">No admin users found.</p>
+        }
+        else
+        {
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-gray-700">
+                    <thead class="bg-gray-100 text-xs uppercase text-gray-600">
+                        <tr>
+                            <th class="px-6 py-4 rounded-tl-lg">Full Name</th>
+                            <th class="px-6 py-4">Department</th>
+                            <th class="px-6 py-4">Email</th>
+                            <th class="px-6 py-4 rounded-tr-lg">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach (var admin in Model)
+                        {
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4">@admin.FullName</td>
+                                <td class="px-6 py-4">@admin.Department</td>
+                                <td class="px-6 py-4">@admin.AppUser?.Email</td>
+                                <td class="px-6 py-4 space-x-3">
+                                    <a asp-action="Details" asp-route-id="@admin.AppUserId" class="text-blue-500 hover:text-blue-700 hover:underline">Details</a>
+                                    <a asp-action="Edit" asp-route-id="@admin.AppUserId" class="text-green-500 hover:text-green-700 hover:underline">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@admin.AppUserId" class="text-green-500 hover:text-red-700 hover:underline">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

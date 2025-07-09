@@ -1,0 +1,36 @@
+﻿@model EShift.Models.Customer
+
+@{
+    ViewData["Title"] = "Customer Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                <i class="fas fa-info-circle mr-2 text-blue-500"></i>Customer Details
+            </h2>
+            <a asp-action="Index" class="gradient-btn text-white px-4 py-2 rounded-lg shadow hover:shadow-lg transition duration-300 ease-in-out">
+                <i class="fas fa-arrow-left mr-2"></i>Back to List
+            </a>
+        </div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">Full Name</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.FullName)</dd>
+            <dt class="col-sm-3">Phone Number</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+            <dt class="col-sm-3">Address</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Address)</dd>
+            <dt class="col-sm-3">App User ID</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.AppUserId)</dd>
+        </dl>
+        <div class="mt-6">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary mr-2">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@using EShift.Models
+@model EShift.Models.Assistant
+
+@{
+    ViewData["Title"] = "Assistant Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@* Ensure Font Awesome is linked in your _AdminLayout.cshtml for icons to display *@
+@* For example, add the following line in the <head> section of _AdminLayout.cshtml: *@
+@* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> *@
+
+<div class="max-w-xl mx-auto mt-8 px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+            <i class="fas fa-info-circle mr-2 text-indigo-500"></i>Assistant Details
+        </h2>
+
+        <hr class="mb-6 border-gray-200" />
+
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-700">
+            <div class="flex flex-col">
+                <dt class="text-sm font-medium text-gray-500">
+                    @Html.DisplayNameFor(model => model.FullName)
+                </dt>
+                <dd class="mt-1 text-lg font-semibold">
+                    @Html.DisplayFor(model => model.FullName)
+                </dd>
+            </div>
+            <div class="flex flex-col">
+                <dt class="text-sm font-medium text-gray-500">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd class="mt-1 text-lg font-semibold">
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+            </div>
+            <div class="flex flex-col col-span-full">
+                @* Use col-span-full for full-width items if needed *@
+                <dt class="text-sm font-medium text-gray-500">
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
+                <dd class="mt-1 text-lg font-semibold">
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+            </div>
+        </dl>
+
+        <div class="flex justify-end mt-8 space-x-4">
+            <a asp-action="Edit" asp-route-id="@Model?.AssistantId" class="gradient-btn text-white px-6 py-2 rounded-lg shadow hover:shadow-lg transition-all flex items-center">
+                <i class="fas fa-edit mr-2"></i>Edit
+            </a>
+            <a asp-action="Index" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i>Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Add a custom gradient button style if not already defined in your CSS */
+    .gradient-btn {
+        background: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo to Violet */
+        border: none;
+    }
+
+        .gradient-btn:hover {
+            background: linear-gradient(to left, #6366f1, #8b5cf6); /* Reverse gradient on hover */
+        }
+</style>
